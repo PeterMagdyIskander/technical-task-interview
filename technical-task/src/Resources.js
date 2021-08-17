@@ -8,20 +8,26 @@ export class Resources extends Component {
     this.state = { resources: [],BookModalShow:false };
   }
 
-  refreshList() {
+  
+  componentDidMount() {
     fetch(process.env.REACT_APP_API + "Resource")
       .then((response) => response.json())
       .then((data) => {
           console.log(data)
-        this.setState({ resources: data });
+        this.setState({ resources: data, selectedResourceIndex:0 });
       });
   }
-  componentDidMount() {
-    this.refreshList();
+  bookModalClose = () => this.setState({ BookModalShow: false, selectedResourceIndex:0 });
+  showModal=()=>{
+      if(this.state.BookModalShow===true){
+          return(
+            <BookModal resource={this.state.resources[this.state.selectedResourceIndex-1]} show={this.state.BookModalShow} onHide={this.bookModalClose} />
+          )
+      }
   }
-  
+
   render() {
-    let bookModalClose = () => this.setState({ BookModalShow: false });
+    
     const { resources } = this.state;
     return (
       <div>
@@ -35,8 +41,8 @@ export class Resources extends Component {
             </tr>
           </thead>
           <tbody>
-            {resources.map(res => 
-              <tr key={res.resourceId}>
+            {resources.map((res) => 
+              (<tr key={res.resourceId}>
                 <td>{res.resourceId}</td>
                 <td>{res.resourceName}</td>
                 <td>
@@ -46,19 +52,25 @@ export class Resources extends Component {
                       variant="info"
                       onClick={() =>
                         this.setState({
-                            BookModalShow: true})
+                            BookModalShow: true,
+                            selectedResourceIndex:res.resourceId,
+                        })
                       }
                       >
                       Book Here
                     </Button>
                   </ButtonToolbar>
-                  <BookModal resid={res.resourceId} show={this.state.BookModalShow} onHide={bookModalClose} />
+                  
+                  
                 </td>
-              </tr>
+              </tr>)
             )
             }
           </tbody>
         </Table>
+        {
+            this.showModal()
+        }
       </div>
     );
   }

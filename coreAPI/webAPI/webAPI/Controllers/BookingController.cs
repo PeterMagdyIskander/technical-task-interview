@@ -26,7 +26,7 @@ namespace webAPI.Controllers
 
         //add new booking
         [HttpPost]
-        public JsonResult Post(Booking booking)
+        public JsonResult Post(Bookings booking)
         {
             string query = @"
                     insert into dbo.Booking

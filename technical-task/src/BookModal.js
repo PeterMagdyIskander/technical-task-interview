@@ -11,6 +11,12 @@ export class BookModal extends Component {
   }
 
   handleSubmit(event) {
+
+
+    console.log(this.state.quantity,
+         this.props.resource.resourceId,
+         event.target.dateFrom.value,
+         event.target.dateTo.value)
     event.preventDefault();
     fetch(process.env.REACT_APP_API + "Booking", {
       method: "POST",
@@ -19,11 +25,11 @@ export class BookModal extends Component {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        bookingQuantity: this.state.quantity,
-        resourceId: this.props.resid,
+        bookingId:null,
+        bookedQuantity: this.state.quantity,
+        resourceId: this.props.resource.resourceId,
         dateFrom: event.target.dateFrom.value,
-        dateTo: event.target.dateTo.value,
-        quantity: this.state.quantity,
+        dateTo: event.target.dateTo.value
       }),
     })
       .then((res) => res.json())
@@ -37,15 +43,6 @@ export class BookModal extends Component {
       );
   }
 
-  onclick(type) {
-    if(this.state.quantity>0){
-        this.setState((prevState) => {
-            return {
-              quantity: (type === "add" ) ? prevState.quantity + 1 : prevState.quantity - 1,
-            };
-          });}
-    
-  }
 
 increment(){
     this.setState((prevState) => {
@@ -74,7 +71,7 @@ decrement(){
         >
           <Modal.Header>
             <Modal.Title id="contained-modal-title-vcenter">
-              Booking Resource {this.props.resid}
+              Booking {this.props.resource.resourceName}
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
