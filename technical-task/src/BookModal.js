@@ -11,54 +11,74 @@ export class BookModal extends Component {
   }
 
   handleSubmit(event) {
-
-
-    console.log(this.state.quantity,
-         this.props.resource.resourceId,
-         event.target.dateFrom.value,
-         event.target.dateTo.value)
     event.preventDefault();
-    fetch(process.env.REACT_APP_API + "Booking", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        bookingId:null,
-        bookedQuantity: this.state.quantity,
-        resourceId: this.props.resource.resourceId,
-        dateFrom: event.target.dateFrom.value,
-        dateTo: event.target.dateTo.value
-      }),
-    })
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          alert(result);
+
+    if (this.props.resource.resourceQuantity >= this.state.quantity) {
+      fetch(process.env.REACT_APP_API + "Resource", {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
         },
-        (error) => {
-          alert("Failed");
-        }
-      );
+        body: JSON.stringify({
+          resourceQuantity:
+            this.props.resource.resourceQuantity - this.state.quantity,
+          resourceId: this.props.resource.resourceId,
+        }),
+      })
+        .then((res) => res.json())
+        .then(
+          (result) => {
+            alert(result);
+          },
+          (error) => {
+            alert("Failed to update");
+          }
+        );
+
+      fetch(process.env.REACT_APP_API +'Booking',{
+        method: "POST",
+        headers: {
+          'Accept':'application/json',
+                'Content-Type':'application/json'
+        },
+        body:JSON.stringify({
+          bookingId: null,
+          bookedQuantity: this.state.quantity,
+          resourceId: this.props.resource.resourceId,
+          dateFrom: event.target.dateFrom.value,
+          dateTo: event.target.dateTo.value,
+        }),
+      })
+        .then((res) => res.json())
+        .then(
+          (result) => {
+            alert(result);
+          },
+          (error) => {
+            alert("Failed to book");
+          }
+        );
+    } else {
+      alert("Quantity of resource is too low");
+    }
   }
 
-
-increment(){
+  increment() {
     this.setState((prevState) => {
-        return {
-          quantity: prevState.quantity +1,
-        };
-      })
-}
-decrement(){
+      return {
+        quantity: prevState.quantity + 1,
+      };
+    });
+  }
+  decrement() {
     this.setState((prevState) => {
-        let val=prevState.quantity - 1
-        return {
-          quantity: val<0 ? 0: val,
-        };
-      })
-}
+      let val = prevState.quantity - 1;
+      return {
+        quantity: val < 0 ? 0 : val,
+      };
+    });
+  }
 
   render() {
     return (
@@ -104,9 +124,9 @@ decrement(){
                     >
                       -
                     </Button>
-                   <h5 controlid="bookingQuantity" name='bookingQuantity'>
-                   {this.state.quantity}
-                   </h5>
+                    <h5 controlid="bookingQuantity" name="bookingQuantity">
+                      {this.state.quantity}
+                    </h5>
                     <Button
                       type="button"
                       onClick={this.increment.bind(this)}

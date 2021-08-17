@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Microsoft.Extensions.Configuration;
 using System.Data.SqlClient;
 using System.Data;
@@ -26,11 +27,10 @@ namespace webAPI.Controllers
 
         //add new booking
         [HttpPost]
-        public JsonResult Post(Bookings booking)
+        public JsonResult Post(Booking booking)
         {
             string query = @"
                     insert into dbo.Booking
-                    (bookedQuantity, resourceId ,dateFrom,dateTo)
                     values 
                     (
                     '" + booking.BookedQuantity + @"'

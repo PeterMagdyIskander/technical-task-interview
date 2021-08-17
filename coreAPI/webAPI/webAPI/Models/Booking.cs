@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace webAPI.Models
 {
-    public class Bookings
+    public class Booking
     {
         public int BookingId { get; set; }
         public string BookedQuantity { get; set; }

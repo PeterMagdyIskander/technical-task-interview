@@ -50,13 +50,12 @@ namespace webAPI.Controllers
 
         //this should be the book function need to fix later
         [HttpPut]
-        public JsonResult Put(Resource res,int quantity )
+        public JsonResult Put(Resource res)
         {
             string query = @"
                     update dbo.Resource set 
                     resourceQuantity = '" + res.ResourceQuantity + @"'
                     where resourceId = " + res.ResourceId + @"
-                    and resourceQuantity >=" + quantity +@" 
                     ";
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("TaskAppCon");
