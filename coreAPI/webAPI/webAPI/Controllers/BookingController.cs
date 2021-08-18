@@ -54,8 +54,25 @@ namespace webAPI.Controllers
                     myCon.Close();
                 }
             }
+            query = @"
+SELECT TOP 1 * FROM dbo.Booking ORDER BY bookingid DESC";
+            table = new DataTable();
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader); ;
 
-            return new JsonResult("Added Successfully");
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+
+
+
+            return new JsonResult(table);
         }
     }
 }

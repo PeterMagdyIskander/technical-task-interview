@@ -13,7 +13,6 @@ export class Resources extends Component {
     fetch(process.env.REACT_APP_API + "Resource")
       .then((response) => response.json())
       .then((data) => {
-          console.log(data)
         this.setState({ resources: data, selectedResourceIndex:0 });
       });
   }

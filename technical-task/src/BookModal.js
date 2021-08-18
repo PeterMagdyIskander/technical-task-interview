@@ -36,14 +36,13 @@ export class BookModal extends Component {
           }
         );
 
-      fetch(process.env.REACT_APP_API +'Booking',{
+      fetch(process.env.REACT_APP_API + "Booking", {
         method: "POST",
         headers: {
-          'Accept':'application/json',
-                'Content-Type':'application/json'
+          Accept: "application/json",
+          "Content-Type": "application/json",
         },
-        body:JSON.stringify({
-          bookingId: null,
+        body: JSON.stringify({
           bookedQuantity: this.state.quantity,
           resourceId: this.props.resource.resourceId,
           dateFrom: event.target.dateFrom.value,
@@ -53,7 +52,10 @@ export class BookModal extends Component {
         .then((res) => res.json())
         .then(
           (result) => {
-            alert(result);
+            alert("Booked Successfully");
+            console.log(
+              `EMAIL SENT TO admin@admin.com FOR CREATED BOOKING WITH ID ${result["0"].bookingId}`
+            );
           },
           (error) => {
             alert("Failed to book");

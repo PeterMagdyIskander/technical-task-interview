@@ -75,5 +75,36 @@ namespace webAPI.Controllers
 
             return new JsonResult("Updated Successfully");
         }
+
+        [HttpPost]
+        public JsonResult Post(Resource res)
+        {
+            string query = @"
+                    insert into dbo.Resource
+                    values 
+                    (
+                     '" + res.ResourceQuantity + @"',
+                    '" + res.ResourceName + @"'
+                    
+                    )
+                    ";
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("TaskAppCon");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader); ;
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            
+            return new JsonResult("Added Successfully");
+        }
     }
 }
