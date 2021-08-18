@@ -55,7 +55,7 @@ namespace webAPI.Controllers
                 }
             }
             query = @"
-SELECT TOP 1 * FROM dbo.Booking ORDER BY bookingid DESC";
+                SELECT TOP 1 * FROM dbo.Booking ORDER BY bookingid DESC";
             table = new DataTable();
             using (SqlConnection myCon = new SqlConnection(sqlDataSource))
             {
