@@ -14,15 +14,15 @@ Specify genres of the resources
 
 ## The database has 2 tables, Booking and Resources
 ### Resource has:
-*id
-*resourceName
-*resourceQuantity
+* id
+* resourceName
+* resourceQuantity
 
 
 ### Booking has:
-*id
-*bookedQuantity
-*resourceId
-*dateFrom
-*dateTo
+* id
+* bookedQuantity
+* resourceId
+* dateFrom
+* dateTo
 
