@@ -29,6 +29,8 @@ namespace webAPI.Controllers
         [HttpPost]
         public JsonResult Post(Booking booking)
         {
+
+            //insert in the table the new booking record
             string query = @"
                     insert into dbo.Booking
                     values 
@@ -54,6 +56,12 @@ namespace webAPI.Controllers
                     myCon.Close();
                 }
             }
+
+
+            //return the last index in the table as this index is the most recently added one,
+            //first by ordering it descending
+            //ofc this is bad logic, bas this is as far as i know right now
+
             query = @"
                 SELECT TOP 1 * FROM dbo.Booking ORDER BY bookingid DESC";
             table = new DataTable();

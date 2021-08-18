@@ -26,6 +26,9 @@ namespace webAPI.Controllers
         [HttpGet]
         public JsonResult Get()
         {
+
+
+            //get the resource table
             string query = @"
                     select resourceId, resourceQuantity,resourceName from dbo.Resource";
             DataTable table = new DataTable();
@@ -48,7 +51,9 @@ namespace webAPI.Controllers
         }
 
 
-        //this should be the book function need to fix later
+        //edit an existing resource by giving it a new quantity,
+        //i didnt check if the id existed or any kind of validation, because in the frontend the only way to access
+        //a record like this, is that it has to be present
         [HttpPut]
         public JsonResult Put(Resource res)
         {
@@ -76,6 +81,8 @@ namespace webAPI.Controllers
             return new JsonResult("Updated Successfully");
         }
 
+
+        //this is a post function to populate the resource table if we want to make an update an admin add resources
         [HttpPost]
         public JsonResult Post(Resource res)
         {
